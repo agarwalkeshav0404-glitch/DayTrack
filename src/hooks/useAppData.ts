@@ -72,6 +72,12 @@ export function useAppData(userId: string | null): AppDataState {
       return;
     }
     void reload();
+
+    const handleVisible = () => {
+      if (document.visibilityState === 'visible') void reload();
+    };
+    document.addEventListener('visibilitychange', handleVisible);
+    return () => document.removeEventListener('visibilitychange', handleVisible);
   }, [userId, reload]);
 
   return { status, data, reload };
